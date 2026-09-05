@@ -7,11 +7,11 @@ members = [
 
 [workspace.package]
 version = "26.4.0"
-description = "A scrollable-tiling Wayland compositor"
+description = "A scrollable-tiling Wayland compositor with Liquid Glass effects"
 authors = ["Ivan Molodetskikh <yalterz@gmail.com>"]
 license = "GPL-3.0-or-later"
 edition = "2021"
-repository = "https://github.com/niri-wm/niri"
+repository = "https://github.com/AbsolOrg/Lniri"
 rust-version = "1.87"
 
 [workspace.dependencies]
@@ -48,7 +48,15 @@ repository.workspace = true
 rust-version.workspace = true
 
 readme = "README.md"
-keywords = ["wayland", "compositor", "tiling", "smithay", "wm"]
+keywords = ["wayland", "compositor", "tiling", "smithay", "wm", "liquid-glass", "lniri"]
+
+[lib]
+name = "niri"
+path = "src/lib.rs"
+
+[[bin]]
+name = "lniri"
+path = "src/main.rs"
 
 [dependencies]
 accesskit = { version = "0.24", optional = true }
