@@ -330,12 +330,38 @@ fn import_environment() {
 }
 
 fn env_config_path() -> Option<PathBuf> {
-    env::var_os("NIRI_CONFIG")
+    env::var_os("LNIRI_CONFIG")
+        .or_else(|| env::var_os("NIRI_CONFIG"))
         .filter(|x| !x.is_empty())
         .map(PathBuf::from)
 }
 
 fn default_config_path() -> Option<PathBuf> {
+    // 1. Prioritize ~/.config/lniri/config.kdl if present
+    if let Some(dirs) = ProjectDirs::from("", "", "lniri") {
+        let mut path = dirs.config_dir().to_owned();
+        path.push("config.kdl");
+        if path.exists() {
+            return Some(path);
+        }
+    }
+
+    // 2. Fall back to ~/.config/niri/config.kdl if present
+    if let Some(dirs) = ProjectDirs::from("", "", "niri") {
+        let mut path = dirs.config_dir().to_owned();
+        path.push("config.kdl");
+        if path.exists() {
+            return Some(path);
+        }
+    }
+
+    // 3. Otherwise default to creating in ~/.config/lniri/config.kdl
+    if let Some(dirs) = ProjectDirs::from("", "", "lniri") {
+        let mut path = dirs.config_dir().to_owned();
+        path.push("config.kdl");
+        return Some(path);
+    }
+
     let Some(dirs) = ProjectDirs::from("", "", "niri") else {
         warn!("error retrieving home directory");
         return None;
@@ -347,7 +373,12 @@ fn default_config_path() -> Option<PathBuf> {
 }
 
 fn system_config_path() -> PathBuf {
-    PathBuf::from("/etc/niri/config.kdl")
+    let lniri_sys = PathBuf::from("/etc/lniri/config.kdl");
+    if lniri_sys.exists() {
+        lniri_sys
+    } else {
+        PathBuf::from("/etc/niri/config.kdl")
+    }
 }
 
 fn config_path(cli_path: Option<PathBuf>) -> ConfigPath {

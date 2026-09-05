@@ -1,136 +1,206 @@
-<h1 align="center"><img alt="niri" src="https://github.com/user-attachments/assets/07d05cd0-d5dc-4a28-9a35-51bae8f119a0"></h1>
-<p align="center">A scrollable-tiling Wayland compositor.</p>
-<p align="center">
-    <a href="https://matrix.to/#/#niri:matrix.org"><img alt="Matrix" src="https://img.shields.io/badge/matrix-%23niri-blue?logo=matrix"></a>
-    <a href="https://github.com/niri-wm/niri/blob/main/LICENSE"><img alt="GitHub License" src="https://img.shields.io/github/license/niri-wm/niri"></a>
-    <a href="https://github.com/niri-wm/niri/releases"><img alt="GitHub Release" src="https://img.shields.io/github/v/release/niri-wm/niri?logo=github"></a>
-</p>
+# Lniri - Liquid Glass Compositor for Wayland
+
+**[English](README.md)** | **[中文](README.zh-CN.md)**
+
+A scrollable-tiling Wayland compositor featuring an integrated **liquid-glass refraction** and background effect engine.
 
 <p align="center">
-    <a href="https://niri-wm.github.io/niri/Getting-Started.html">Getting Started</a> | <a href="https://niri-wm.github.io/niri/Configuration%3A-Introduction.html">Configuration</a> | <a href="https://github.com/niri-wm/niri/discussions/325">Setup&nbsp;Showcase</a>
+  <img width="1920" height="1080" alt="Lniri Liquid Glass Preview" src="https://github.com/user-attachments/assets/a10b40c7-b147-4dfa-8208-28ebb4003cfc" />
 </p>
 
-<img width="1280" height="720" alt="niri with a few windows open" src="https://github.com/user-attachments/assets/dea5909e-1859-4aaa-9d88-d37f9663e00b" />
+---
 
-## About
+## ⚡ Quick Start: One-Liner Install
 
-Windows are arranged in columns on an infinite strip going to the right.
-Opening a new window never causes existing windows to resize.
+Install or update Lniri directly with a single command. The installer will prompt for your `sudo` password once upfront, keep the credential alive during compilation, automatically install required dependencies, build Lniri with a persistent cached `target/` directory for fast updates, and register your Wayland session:
 
-Every monitor has its own separate window strip.
-Windows can never "overflow" onto an adjacent monitor.
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/AbsolOrg/Lniri/main/install.sh)"
+```
 
-Workspaces are dynamic and arranged vertically.
-Every monitor has an independent set of workspaces, and there's always one empty workspace present all the way down.
+> **Why this installer is smart:**
+> - **Auto-Detects Existing Installs**: If Lniri is already installed, running this command automatically enters **Update Mode** and lets you choose your update channel:
+>   - **Main branch**: Get the cutting-edge latest commits.
+>   - **Latest release**: Stay on stable tagged releases.
+> - **Zero-recompile on updates**: Maintains a persistent build cache in `~/.local/share/lniri/target`, so future runs and updates take seconds instead of compiling from scratch.
+> - **Hands-free**: Asks for `sudo` once at the beginning and keeps the session active in the background until installation finishes.
+> - **Self-contained**: Installs standalone binaries (`lniri`, `Lniri`, and `lniri-session`), systemd user units, and the Wayland session entry without requiring upstream `niri` to be installed first.
 
-The workspace arrangement is preserved across disconnecting and connecting monitors where it makes sense.
-When a monitor disconnects, its workspaces will move to another monitor, but upon reconnection they will move back to the original monitor.
+---
 
-## Features
+## 🚀 How to Launch
 
-- Built from the ground up for scrollable tiling
-- [Dynamic workspaces](https://niri-wm.github.io/niri/Workspaces.html) like in GNOME
-- An [Overview](https://github.com/user-attachments/assets/379a5d1f-acdb-4c11-b36c-e85fd91f0995) that zooms out workspaces and windows
-- Built-in screenshot UI
-- Monitor and window screencasting through xdg-desktop-portal-gnome
-    - You can [block out](https://niri-wm.github.io/niri/Configuration%3A-Window-Rules.html#block-out-from) sensitive windows from screencasts
-    - [Dynamic cast target](https://niri-wm.github.io/niri/Screencasting.html#dynamic-screencast-target) that can change what it shows on the go
-- [Touchpad](https://github.com/niri-wm/niri/assets/1794388/946a910e-9bec-4cd1-a923-4a9421707515) and [mouse](https://github.com/niri-wm/niri/assets/1794388/8464e65d-4bf2-44fa-8c8e-5883355bd000) gestures
-- Group windows into [tabs](https://niri-wm.github.io/niri/Tabs.html)
-- Configurable layout: gaps, borders, struts, window sizes
-- [Gradient borders](https://niri-wm.github.io/niri/Configuration%3A-Layout.html#gradients) with Oklab and Oklch support
-- [Background blur](https://niri-wm.github.io/niri/Window-Effects.html) for windows and layer-shell surfaces
-- [Animations](https://github.com/niri-wm/niri/assets/1794388/ce178da2-af9e-4c51-876f-8709c241d95e) with support for [custom shaders](https://github.com/niri-wm/niri/assets/1794388/27a238d6-0a22-4692-b794-30dc7a626fad)
-- Live-reloading config
-- Works with [screen readers](https://niri-wm.github.io/niri/Accessibility.html)
+1. **From your Display Manager (GDM, SDDM, Ly, Greetd):**
+   Select **Lniri (Liquid Glass)** from the session list at login.
 
-## Video Demo
+2. **From a TTY:**
+   ```bash
+   exec lniri-session
+   ```
 
-https://github.com/niri-wm/niri/assets/1794388/bce834b0-f205-434e-a027-b373495f9729
+3. **Standalone binary:**
+   ```bash
+   lniri
+   # or
+   Lniri
+   ```
 
-Also check out these videos that showcase a lot of the niri functionality:
+---
 
-- [Niri Is My New Favorite Wayland Compositor](https://www.youtube.com/watch?v=DeYx2exm04M) by Brodie Robertson
-- [How Is niri This Good? Live Demo + Config](https://www.youtube.com/watch?v=7XmD5UyyhZQ) by Nick Janetakis
+## 🖼️ Gallery & Examples
 
-## Status
+### Dynamic Glass & Wallpaper Reflections
 
-Niri is stable for day-to-day use and does most things expected of a Wayland compositor.
-Many people are daily-driving niri, and are happy to help in our [Matrix channel].
+<img width="1920" height="1080" alt="Glass Effect 1" src="https://github.com/user-attachments/assets/8cad6485-b685-4bc9-b22e-8cf7801cd15a" />
 
-Give it a try!
-Follow the instructions on the [Getting Started](https://niri-wm.github.io/niri/Getting-Started.html) page.
-Grab a desktop shell like [DankMaterialShell] or [Noctalia] (or build a more traditional setup): niri by itself is not a complete desktop environment.
-Also check out [awesome-niri], a list of niri-related links and projects.
+<img width="1920" height="1080" alt="Glass Effect 2" src="https://github.com/user-attachments/assets/fccc46f0-9cda-488b-b0e1-5939d36676cf" />
 
-Here are some points you may have questions about:
+<img width="1920" height="1080" alt="Glass Effect 3" src="https://github.com/user-attachments/assets/ff3f0d17-3bf1-42e8-9660-e291189321f9" />
 
-- **Multi-monitor**: yes, a core part of the design from the very start. Mixed DPI works.
-- **Fractional scaling**: yes, plus all niri UI stays pixel-perfect.
-- **NVIDIA**: seems to work fine.
-- **Floating windows**: yes, starting from niri 25.01.
-- **Input devices**: niri supports tablets, touchpads, and touchscreens.
-You can map the tablet to a specific monitor, or use [OpenTabletDriver].
-We have touchpad gestures, but no touchscreen gestures yet.
-- **Wlr protocols**: yes, we have most of the important ones like layer-shell, gamma-control, screencopy.
-You can check on [wayland.app](https://wayland.app) at the bottom of each protocol's page.
-- **Performance**: while I run niri on beefy machines, I try to stay conscious of performance.
-I've seen someone use it fine on an Eee PC 900 from 2008, of all things.
-- **Xwayland**: [integrated](https://niri-wm.github.io/niri/Xwayland.html#using-xwayland-satellite) via xwayland-satellite starting from niri 25.08.
+<img width="1920" height="1080" alt="Glass Effect 4" src="https://github.com/user-attachments/assets/eaeda5ef-1fe3-4e51-8466-10e461240021" />
 
-## Media
+### Video Demo (Live Wallpaper + Shadows)
 
-[niri: Making a Wayland compositor in Rust](https://youtu.be/Kmz8ODolnDg?list=PLRdS-n5seLRqrmWDQY4KDqtRMfIwU0U3T) · *December 2024*
+https://github.com/user-attachments/assets/4fceeaaf-4ff1-4c4d-adcf-af52cd33a912
 
-My talk from the 2024 Moscow RustCon about niri, and how I do randomized property testing and profiling, and measure input latency.
-The talk is in Russian, but I prepared full English subtitles that you can find in YouTube's subtitle language selector.
+### With XRay Disabled
 
-[An interview with Ivan, the developer behind Niri](https://www.trommelspeicher.de/podcast/special_the_developer_behind_niri) · *June 2025*
+<img width="1920" height="1080" alt="XRay False" src="https://github.com/user-attachments/assets/049102f2-d7c9-4d0b-8862-671c34c61d18" />
 
-An interview by a German tech podcast Das Triumvirat (in English).
-We talk about niri development and history, and my experience building and maintaining niri.
+---
 
-[A tour of the niri scrolling-tiling Wayland compositor](https://lwn.net/Articles/1025866/) · *July 2025*
+## ⚙️ Configuration
 
-An LWN article with a nice overview and introduction to niri.
+> 📖 **Looking for full terminal configs (Kitty, Alacritty, Ghostty), wallpaper daemon setups, and ready-to-use presets?**  
+> Check out the [**Complete Setup Template & Guide (template.md)**](template.md).
 
-## Contributing
+Lniri looks for configuration files in the following order:
+1. `~/.config/lniri/config.kdl`
+2. `~/.config/niri/config.kdl` (seamless fallback for existing niri configs)
+3. Custom path via `$LNIRI_CONFIG` or `$NIRI_CONFIG`
 
-If you'd like to help with niri, there are plenty of both coding- and non-coding-related ways to do so.
-See [CONTRIBUTING.md](https://github.com/niri-wm/niri/blob/main/CONTRIBUTING.md) for an overview.
+### Full Liquid Glass Example
 
-## Inspiration
+Add the following to your `config.kdl`:
 
-Niri is heavily inspired by [PaperWM] which implements scrollable tiling on top of GNOME Shell.
+```kdl
+window-rule {
+    match app-id=".*"
+    background-effect {
+        blur true
+        xray true
+        liquid-glass {
+            refraction-strength 3.0
+            power-factor 10.0
+            refraction-power 1.0
+            glow-weight 0.0001
+            edge-lighting 0.2
+            saturation 0.9
+            vibrancy 0.2
+            adaptive-dim 0.2
+            adaptive-boost 0.2
+            physical-refraction 0.0
+            lens-distortion 0.0
+            fringing 0.0
+        }
+    }
+}
+```
 
-One of the reasons that prompted me to try writing my own compositor is being able to properly separate the monitors.
-Being a GNOME Shell extension, PaperWM has to work against Shell's global window coordinate space to prevent windows from overflowing.
+### Frosted Glass Look
 
-## Tile Scrollably Elsewhere
+For a subtler frosted glass look:
 
-Here are some other projects which implement a similar workflow:
+```kdl
+saturation 0.9
+vibrancy 0.2
+adaptive-dim 0.25
+adaptive-boost 0.25
+```
 
-- [PaperWM]: scrollable tiling on top of GNOME Shell.
-- [karousel]: scrollable tiling on top of KDE.
-- [scroll](https://github.com/dawsers/scroll) and [papersway]: scrollable tiling on top of sway/i3.
-- Hyprland has a built-in [scrolling layout](https://wiki.hypr.land/Configuring/Layouts/Scrolling-Layout/).
-- [Paneru] and [PaperWM.spoon]: scrollable tiling on top of macOS.
+<img width="462" height="276" alt="Frosted Glass" src="https://github.com/user-attachments/assets/ef2949f8-c8b7-4805-a2b5-7aaa87507525" />
 
-## Contact
+### Minimal / Zero Glass
 
-Our main communication channel is a Matrix chat, feel free to join and ask a question: https://matrix.to/#/#niri:matrix.org
+With all parameters set to 0 (except saturation = 1):
 
-We also have a community Discord server: https://discord.gg/vT8Sfjy7sx
+```kdl
+saturation 1.0
+```
 
-[PaperWM]: https://github.com/paperwm/PaperWM
-[waybar]: https://github.com/Alexays/Waybar
-[fuzzel]: https://codeberg.org/dnkl/fuzzel
-[awesome-niri]: https://github.com/niri-wm/awesome-niri
-[karousel]: https://github.com/peterfajdiga/karousel
-[papersway]: https://spwhitton.name/tech/code/papersway/
-[Paneru]: https://github.com/karinushka/paneru
-[PaperWM.spoon]: https://github.com/mogenson/PaperWM.spoon
-[Matrix channel]: https://matrix.to/#/#niri:matrix.org
-[OpenTabletDriver]: https://opentabletdriver.net/
-[DankMaterialShell]: https://danklinux.com/
-[Noctalia]: https://noctalia.dev/
+<img width="462" height="276" alt="Zero Glass" src="https://github.com/user-attachments/assets/991553ad-66d0-4a62-8519-8ce3b04bdcc0" />
+
+### Parameters Breakdown
+
+- **`refraction-strength`**: Intensity of the background optical refraction.
+- **`fringing`**: Chromatic dispersion effect (RGB prism fringing along edges).
+  <br/><img width="243" height="63" alt="Fringing" src="https://github.com/user-attachments/assets/56d589e5-ffa1-46e9-a58a-996d015070e9" />
+- **`edge-lighting`**: Blend wallpaper colors dynamically along window borders.
+  <br/><img width="533" height="320" alt="Edge Lighting 1" src="https://github.com/user-attachments/assets/91d4b152-8bec-47dc-b4dd-6f10a30a441d" />
+  <br/><img width="531" height="329" alt="Edge Lighting 2" src="https://github.com/user-attachments/assets/c4ba4a55-a3cd-49b5-ae15-fdf9154650c4" />
+- **`vibrancy`** & **`saturation`**: Color pop and vibrancy enhancement underneath the glass layer.
+- **`adaptive-dim`** & **`adaptive-boost`**: Dynamic contrast adaptation against high and low-luminance backgrounds.
+
+---
+
+## ❄️ Nix / NixOS (Flake)
+
+Lniri includes a complete standalone Flake:
+
+```bash
+# Try it out directly
+nix run github:AbsolOrg/Lniri
+
+# Or drop into a shell with lniri
+nix shell github:AbsolOrg/Lniri
+```
+
+### In NixOS Configuration
+
+```nix
+{
+  inputs.lniri.url = "github:AbsolOrg/Lniri";
+
+  outputs = { self, nixpkgs, lniri, ... }: {
+    nixosConfigurations.yourhost = nixpkgs.lib.nixosSystem {
+      modules = [
+        lniri.nixosModules.default
+        {
+          programs.lniri.enable = true;
+        }
+      ];
+    };
+  };
+}
+```
+
+---
+
+## 🛠️ Manual Installation (from Git)
+
+If you prefer to clone and inspect the source yourself:
+
+```bash
+git clone https://github.com/AbsolOrg/Lniri.git
+cd Lniri
+./install.sh
+```
+
+Because the `target/` directory remains in the repository, any subsequent runs of `./install.sh` or `cargo build --release` are incremental and very fast.
+
+---
+
+## 🗑️ Uninstallation
+
+To cleanly remove Lniri and all registered services and desktop files:
+
+```bash
+./uninstall.sh
+```
+
+---
+
+## 📜 Credits & License
+
+- Forked and evolved from [niri](https://github.com/niri-wm/niri) (licensed under GPL-3.0-or-later).
+- Liquid glass shader effects inspired by [kwin-effects-glass](https://github.com/4v3ngR/kwin-effects-glass) and [Niri-glass](https://github.com/zaroutt/Niri-glass).
